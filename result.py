@@ -26,3 +26,36 @@ def translate(src: str, model):
     tgt_tokens = cn_vocab.lookup_tokens(tgt.squeeze().tolist())
     translation = ''.join(tgt_tokens).replace("<s>", "").replace("</s>", "")
     return translation
+    
+
+with open('cn_test.txt', 'r') as file:
+    lines = file.readlines()
+
+lines = [line.strip() for line in lines]
+cn_test = lines
+
+# 打开文本文件
+with open('en_test.txt', 'r') as file:
+    lines = file.readlines()
+lines = [line.strip() for line in lines]
+en_test = lines
+
+import random
+
+# Combine two lists into tuple pairs and randomly sample 100 pairs
+random_samples = random.sample(list(zip(en_test, cn_test)), 100)
+
+# Unzip the sampled results into two lists
+en_sample, cn_sample = zip(*random_samples)
+
+# Test translation on the first sample (optional)
+translate(en_sample[0], model)
+
+def compare_results(en_sample, cn_sample, model):
+    for en_text, cn_text in zip(en_sample, cn_sample):
+        pred = translate(en_text, model)
+        print("Field Name: " + en_text)
+        print("Original Annotation: " + cn_text)
+        print("Predicted Annotation: " + pred, end='\n\n')
+        
+compareresult(cn_sample,en_sample,model)
