@@ -154,3 +154,8 @@ class TranslationLoss(nn.Module):
 
         # Compute the loss
         return self.criterion(x, true_dist.detach())
+
+
+torch.save(model.state_dict(), 'model.pth')
+model.eval()
+
